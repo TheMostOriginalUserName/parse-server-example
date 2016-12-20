@@ -19,7 +19,26 @@ var api = new ParseServer({
   serverURL: process.env.SERVER_URL || 'http://localhost:1337/parse',  // Don't forget to change to https if needed
   liveQuery: {
     classNames: ["Posts", "Comments"] // List of classes to support for query subscriptions
-  }
+  },
+emailAdapter: {
+ module: 'parse-server-simple-mailgun-adapter',
+ options: {
+ fromAddress: process.env.EMAIL_FROM || "email-from@example.com",
+ domain: process.env.MAILGUN_DOMAIN || "example.com",
+ apiKey: process.env.MAILGUN_API_KEY || "API-Key",
+ // Verification email subject
+ verificationSubject: 'Please verify your e-mail for %appname%',
+ // Verification email body
+ verificationBody: 'Hi,\n\nYou are being asked to confirm the e-mail address %email% with %appname%\n\nClick here to confirm it:\n%link%',
+
+// Password reset email subject
+ passwordResetSubject: 'Password Reset Request for %appname%',
+ // Password reset email body
+ passwordResetBody: 'Hi,\n\nYou requested a password reset for %appname%.\n\nClick here to reset it:\n%link%',
+ //OPTIONAL (will send HTML version of email):
+ passwordResetBodyHTML: "<!--DOCTYPE html>........"
+ }
+ }
 });
 // Client-keys like the javascript key or the .NET key are not necessary with parse-server
 // If you wish you require them, you can set them as options in the initialization above:
